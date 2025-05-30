@@ -1,3 +1,14 @@
+"""
+URL configuration for the kittygram_backend project.
+
+This module defines the URL patterns for the Django project, including:
+- Admin interface
+- API endpoints for cats and achievements
+- User authentication and token management via Djoser
+- Serving media files in DEBUG mode
+"""
+
+
 from cats.views import AchievementViewSet, CatViewSet
 from django.conf import settings
 from django.conf.urls.static import static
