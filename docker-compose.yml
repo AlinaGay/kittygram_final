@@ -9,12 +9,16 @@ services:
     env_file: .env
     volumes:
       - kittygram_pg_data:/var/lib/postgresql/data
+    restart: unless-stopped  
   backend:
     build: ./backend/
+    depends_on:
+      - kittygram_db
     env_file: .env
     volumes:
       - static:/backend_static
       - media:/app/media
+    restart: unless-stopped  
   frontend:
     env_file: .env
     build: ./frontend/
@@ -23,9 +27,12 @@ services:
      - static:/static
   gateway:
     build: ./nginx/
+    depends_on:
+      - backend
     env_file: .env
     ports:
       - 9000:80
     volumes:
       - static:/static
-      - media:/app/media 
+      - media:/app/media
+    restart: unless-stopped

@@ -26,7 +26,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.10
+        python-version: 3.12
 
     - name: Install dependencies
       run: |
@@ -62,7 +62,7 @@ jobs:
       - name: Login to Docker 
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_EMAIL }}
           password: ${{ secrets.DOCKER_PASSWORD }}
   
       - name: Push to DockerHub
@@ -70,7 +70,7 @@ jobs:
         with:
           context: ./backend/
           push: true
-          tags: alinagay/kittygram_backend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_backend:latest
 
   frontend_tests:
     runs-on: ubuntu-latest
@@ -102,22 +102,19 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
       - name: Login to Docker 
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_EMAIL }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Push to DockerHub
         uses: docker/build-push-action@v4
         with:
           context: ./frontend/
           push: true
-          tags: alinagay/kittygram_frontend:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_frontend:latest
 
   build_gateway_and_push_to_docker_hub:
     name: Push gateway Docker image to DockerHub
@@ -130,14 +127,14 @@ jobs:
       - name: Login to Docker 
         uses: docker/login-action@v2
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_EMAIL }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Push to DockerHub
         uses: docker/build-push-action@v4
         with:
           context: ./nginx/
           push: true
-          tags: alinagay/kittygram_gateway:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/kittygram_gateway:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -173,8 +170,7 @@ jobs:
           sudo docker compose -f docker-compose.production.yml up -d
           # Выполняет миграции и сбор статики
           sudo docker compose -f docker-compose.production.yml exec backend python manage.py migrate
-          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic
-          sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
+          sudo docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --no-input
 
   send_message:
     runs-on: ubuntu-latest
@@ -185,4 +181,9 @@ jobs:
       with:
         to: ${{ secrets.TELEGRAM_TO }}
         token: ${{ secrets.TELEGRAM_TOKEN }}
-        message: Деплой успешно выполнен!
+        message: |
+          Деплой успешно выполнен!
+          Автор: ${{ github.actor }}
+          Коммит: ${{ github.event.commits[0].message }}
+          Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+          Время: ${{ format('{0:%Y-%m-%d %H:%M:%S}', github.event.head_commit.timestamp) }}
