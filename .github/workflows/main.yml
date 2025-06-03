@@ -186,4 +186,3 @@ jobs:
           Автор: ${{ github.actor }}
           Коммит: ${{ github.event.commits[0].message }}
           Ссылка: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
-          Время: ${{ format('{0:%Y-%m-%d %H:%M:%S}', github.event.head_commit.timestamp) }}
