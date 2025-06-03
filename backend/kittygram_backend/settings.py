@@ -1,6 +1,6 @@
-# flake8: noqa
 import os
 from pathlib import Path
+
 from django.core.management.utils import get_random_secret_key
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -9,11 +9,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 'yes']
 
-DEFAULT_ALLOWED_HOSTS = 'localhost,127.0.0.1'
-
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', DEFAULT_ALLOWED_HOSTS).split(',')
-
-ALLOWED_HOSTS = [host.strip() for host in ALLOWED_HOSTS]
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -111,7 +107,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated', 
+        'rest_framework.permissions.IsAuthenticated',
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
