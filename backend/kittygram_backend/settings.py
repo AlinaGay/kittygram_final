@@ -9,7 +9,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
 DEBUG = os.getenv('DEBUG', 'False').lower() in ['true', '1', 'yes']
 
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', 'localhost')
+ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', ['localhost'])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
