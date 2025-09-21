@@ -1,26 +1,23 @@
-#  Как работать с репозиторием финального задания
+#  Cats API
 
-## Что нужно сделать
+A Django REST Framework project that provides an API for managing cats and their achievements.
+Users can create, view, update, and delete information about cats, upload their photos, and assign achievements.
 
-Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
+## Features
 
-## Как проверить работу с помощью автотестов
+- Cats management: Full CRUD operations for cat profiles.
+- Achievements: Create and manage achievements that cats can earn.
+- Owner assignment: The owner of a cat is automatically set to the currently authenticated user.
+- Pagination: Built-in pagination for cat listings.
+- Custom fields:
+-- Hex color codes are automatically converted to human-readable color names.
+-- Base64-encoded image uploads supported out of the box.
+- Automatic age calculation: The API returns the cat’s age calculated from its birth year.
 
-В корне репозитория создайте файл tests.yml со следующим содержимым:
-```yaml
-repo_owner: ваш_логин_на_гитхабе
-kittygram_domain: полная ссылка (https://доменное_имя) на ваш проект Kittygram
-taski_domain: полная ссылка (https://доменное_имя) на ваш проект Taski
-dockerhub_username: ваш_логин_на_докерхабе
-```
+## Tech Stack
 
-Скопируйте содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
-
-Для локального запуска тестов создайте виртуальное окружение, установите в него зависимости из backend/requirements.txt и запустите в корневой директории проекта `pytest`.
-
-## Чек-лист для проверки перед отправкой задания
-
-- Проект Taski доступен по доменному имени, указанному в `tests.yml`.
-- Проект Kittygram доступен по доменному имени, указанному в `tests.yml`.
-- Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
-- В корне проекта есть файл `kittygram_workflow.yml`.
+- Python 3
+- Django
+- Django REST Framework
+- webcolors — for converting hex color codes to names.
+- PostgreSQL or any other database supported by Django.
