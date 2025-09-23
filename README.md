@@ -21,3 +21,36 @@ Users can create, view, update, and delete information about cats, upload their 
 - Django REST Framework
 - webcolors — for converting hex color codes to names.
 - PostgreSQL or any other database supported by Django.
+
+## How to run the project:
+
+Clone the repository and navigate into it in the command line:
+```
+git clone https://github.com/AlinaGay/kittygram_final.git
+cd kittygram_backend
+```
+Create and activate a virtual environment:
+* If you have Linux/macOS
+    ```
+    source env/bin/activate
+    ```
+* If you have windows
+    ```
+    source env/scripts/activate
+    ```
+Update pip:
+```
+python3 -m pip install --upgrade pip
+```
+Apply migrations:
+```
+python3 manage.py migrate
+```
+Start the project:
+```
+python3 manage.py runserver
+```
+## Author
+
+[AlinaGay](https://github.com/AlinaGay)
+| Backend Developer • Python Engineer |
